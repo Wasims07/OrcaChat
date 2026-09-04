@@ -1,8 +1,11 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  // ✅ Standalone output for Docker deployments
-  output: "standalone",
+  // ✅ Standalone output for Docker deployments.
+  // On Vercel it's ignored anyway and, as of Next.js 16.3, breaks the build
+  // (adapter + standalone omits next-server.js.nft.json → ENOENT). Disable it
+  // there and keep it for self-hosting via the Dockerfile.
+  output: process.env.VERCEL ? undefined : "standalone",
 
   // ✅ Keep existing
   serverExternalPackages: ['pdf-parse'],
