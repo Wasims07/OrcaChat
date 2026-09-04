@@ -1,0 +1,1462 @@
+@import "tailwindcss";
+
+/* =========================================
+   GITHUB DARK DEFAULT — DESIGN TOKENS
+   Exact palette from github.com dark theme
+========================================= */
+
+:root {
+  /* ---- Backgrounds ---- */
+  --background: #0d1117;
+  --foreground: #c9d1d9;
+
+  --sidebar: #161b22;
+  --surface: #161b22;
+  --surface-hover: #1c2128;
+
+  /* ---- Borders ---- */
+  --border: #30363d;
+
+  /* ---- Accent / Interactive ---- */
+  --accent: #238636;
+  --accent-hover: #2ea043;
+  --accent-blue: #1f6feb;
+
+  /* ---- Code ---- */
+  --code-background: #161b22;
+  --code-foreground: #c9d1d9;
+
+  /* ---- Muted / Secondary ---- */
+  --muted: #8b949e;
+
+  /* ---- Dropdown / Menus ---- */
+  --dropdown-bg: #161b22;
+  --dropdown-border: #30363d;
+  --dropdown-hover: #1c2128;
+  --dropdown-icon-bg: #1c2128;
+  --dropdown-text: #c9d1d9;
+  --dropdown-subtext: #8b949e;
+  --dropdown-heading: #8b949e;
+}
+
+/* =========================================
+   LIGHT THEME TOKENS
+========================================= */
+
+html[data-theme="light"] {
+  --background: #f6f8fa;
+  --foreground: #1f2328;
+
+  --sidebar: #ffffff;
+  --surface: #ffffff;
+  --surface-hover: #f6f8fa;
+
+  --border: #d0d7de;
+
+  --accent: #1f883d;
+  --accent-hover: #1a7f37;
+  --accent-blue: #0969da;
+
+  --code-background: #f6f8fa;
+  --code-foreground: #24292f;
+
+  --muted: #656d76;
+
+  --dropdown-bg: #ffffff;
+  --dropdown-border: #d0d7de;
+  --dropdown-hover: #f6f8fa;
+  --dropdown-icon-bg: #f6f8fa;
+  --dropdown-text: #1f2328;
+  --dropdown-subtext: #656d76;
+  --dropdown-heading: #6e7781;
+}
+
+html[data-theme="light"] body {
+  background: #f6f8fa;
+  color: #1f2328;
+}
+
+/* =========================================
+   LIGHT THEME — SURFACES
+========================================= */
+
+html[data-theme="light"] .bg-black,
+html[data-theme="light"] .bg-white,
+html[data-theme="light"] .bg-black\/95,
+html[data-theme="light"] .bg-\[\#000000\],
+html[data-theme="light"] .bg-\[\#050505\],
+html[data-theme="light"] .bg-\[\#07080c\],
+html[data-theme="light"] .bg-\[\#080a10\],
+html[data-theme="light"] .bg-\[\#0a0a0a\],
+html[data-theme="light"] .bg-\[\#0a0a0f\],
+html[data-theme="light"] .bg-\[\#0a0d14\],
+html[data-theme="light"] .bg-\[\#0b0b0d\],
+html[data-theme="light"] .bg-\[\#0b0e14\],
+html[data-theme="light"] .bg-\[\#0d0d0d\],
+html[data-theme="light"] .bg-\[\#0d0d0f\],
+html[data-theme="light"] .bg-\[\#0d0d14\],
+html[data-theme="light"] .bg-\[\#111111\],
+html[data-theme="light"] .bg-\[\#111214\],
+html[data-theme="light"] .bg-\[\#131314\],
+html[data-theme="light"] .bg-\[\#14171b\],
+html[data-theme="light"] .bg-\[\#15151e\],
+html[data-theme="light"] .bg-\[\#1a1a1a\],
+html[data-theme="light"] .bg-\[\#0d1117\],
+html[data-theme="light"] .bg-\[\#161b22\],
+html[data-theme="light"] .bg-\[\#1c2128\],
+html[data-theme="light"] .bg-\[\#21262d\] {
+  background-color: #ffffff;
+}
+
+html[data-theme="light"] .bg-\[\#161b22\]\/95 {
+  background-color: rgba(255, 255, 255, 0.95);
+}
+
+html[data-theme="light"] .bg-\[\#1c1607\] {
+  background-color: #fef3c7;
+}
+
+html[data-theme="light"] .text-\[\#d4a017\] {
+  color: #92400e;
+}
+
+html[data-theme="light"] .bg-\[\#0f1419\],
+html[data-theme="light"] .bg-\[\#1a1a24\],
+html[data-theme="light"] .bg-\[\#1a1d21\],
+html[data-theme="light"] .bg-\[\#202327\],
+html[data-theme="light"] .bg-\[\#232830\],
+html[data-theme="light"] .bg-\[\#292d32\],
+html[data-theme="light"] .bg-\[\#2a2a34\],
+html[data-theme="light"] .bg-\[\#30343a\],
+html[data-theme="light"] .bg-\[\#30363d\] {
+  background-color: #f6f8fa;
+}
+
+html[data-theme="light"] .bg-white\/\[0\.02\],
+html[data-theme="light"] .bg-white\/\[0\.03\],
+html[data-theme="light"] .bg-white\/\[0\.04\],
+html[data-theme="light"] .bg-white\/\[0\.05\],
+html[data-theme="light"] .bg-white\/\[0\.06\],
+html[data-theme="light"] .bg-white\/\[0\.07\],
+html[data-theme="light"] .bg-white\/\[0\.08\],
+html[data-theme="light"] .bg-white\/5,
+html[data-theme="light"] .bg-white\/10 {
+  background-color: #f6f8fa;
+}
+
+html[data-theme="light"] .bg-white\/\[0\.15\],
+html[data-theme="light"] .bg-white\/\[0\.14\],
+html[data-theme="light"] .bg-white\/20,
+html[data-theme="light"] .bg-white\/\[0\.2\] {
+  background-color: #eaeef2;
+}
+
+html[data-theme="light"] .bg-gradient-to-b {
+  background-image: linear-gradient(to bottom, rgba(0,0,0,0.03), rgba(0,0,0,0));
+}
+
+/* =========================================
+   LIGHT THEME — TEXT
+========================================= */
+
+html[data-theme="light"] .text-white,
+html[data-theme="light"] .text-\[\#f5f5f5\],
+html[data-theme="light"] .text-\[\#e6edf3\],
+html[data-theme="light"] .text-\[\#e6e6e6\],
+html[data-theme="light"] .text-\[\#d7e0e8\],
+html[data-theme="light"] .text-\[\#d7dce1\],
+html[data-theme="light"] .text-\[\#d5dae2\],
+html[data-theme="light"] .text-\[\#c9d1d9\] {
+  color: #1f2328;
+}
+
+html[data-theme="light"] .text-\[\#9aa2aa\],
+html[data-theme="light"] .text-\[\#9aa3b0\],
+html[data-theme="light"] .text-\[\#9aa4b0\],
+html[data-theme="light"] .text-\[\#9ca3af\],
+html[data-theme="light"] .text-\[\#8b949e\] {
+  color: #656d76;
+}
+
+html[data-theme="light"] .text-\[\#7c8494\],
+html[data-theme="light"] .text-\[\#6b7280\],
+html[data-theme="light"] .text-\[\#687078\],
+html[data-theme="light"] .text-\[\#4d555d\],
+html[data-theme="light"] .text-\[\#555\],
+html[data-theme="light"] .text-\[\#555555\],
+html[data-theme="light"] .text-\[\#4b5563\],
+html[data-theme="light"] .text-\[\#3d4450\],
+html[data-theme="light"] .text-\[\#24292f\] {
+  color: #656d76;
+}
+
+html[data-theme="light"] .text-\[\#333\] {
+  color: #8b949e;
+}
+
+html[data-theme="light"] .text-red-400,
+html[data-theme="light"] .text-\[\#ff6b6b\] {
+  color: #cf222e;
+}
+
+html[data-theme="light"] .text-green-400,
+html[data-theme="light"] .text-\[\#4ade80\] {
+  color: #1a7f37;
+}
+
+html[data-theme="light"] .text-blue-400 {
+  color: #0969da;
+}
+
+/* =========================================
+   LIGHT THEME — BORDERS
+========================================= */
+
+html[data-theme="light"] .border-white\/5,
+html[data-theme="light"] .border-white\/\[0\.06\],
+html[data-theme="light"] .border-white\/\[0\.08\],
+html[data-theme="light"] .border-white\/10,
+html[data-theme="light"] .border-white\/\[0\.1\],
+html[data-theme="light"] .border-white\/20,
+html[data-theme="light"] .border-\[\#202327\],
+html[data-theme="light"] .border-\[\#1a1a24\],
+html[data-theme="light"] .border-\[\#2a2a34\],
+html[data-theme="light"] .border-\[\#3d4450\],
+html[data-theme="light"] .border-\[\#30363d\] {
+  border-color: #d0d7de;
+}
+
+/* =========================================
+   LIGHT THEME — GREEN ACCENT BUTTONS
+   GitHub Light green: #1f883d (hover #1a7f37)
+========================================= */
+
+html[data-theme="light"] .bg-\[\#238636\],
+html[data-theme="light"] .bg-\[\#2ea043\] {
+  background-color: #1f883d;
+}
+
+html[data-theme="light"] .hover\:bg-\[\#2ea043\]:hover {
+  background-color: #1a7f37;
+}
+
+html[data-theme="light"] .bg-\[\#1f883d\] {
+  background-color: #1f883d;
+}
+
+html[data-theme="light"] .hover\:bg-\[\#1a7f37\]:hover {
+  background-color: #1a7f37;
+}
+
+/* =========================================
+   LIGHT THEME — MESSAGE BUBBLES
+   User: #eff1f3 bg with #d0d7de border
+========================================= */
+
+html[data-theme="light"] .dc-user-bubble {
+  background-color: #eff1f3;
+  border-color: #d0d7de;
+  color: #1f2328;
+}
+
+/* =========================================
+   LIGHT THEME — GENERIC DARK UTILITIES
+   Remap dark hover backgrounds + text so
+   nothing turns invisible on hover.
+========================================= */
+
+html[data-theme="light"] .hover\:bg-\[\#21262d\]:hover,
+html[data-theme="light"] .hover\:bg-\[\#1c2128\]:hover,
+html[data-theme="light"] .hover\:bg-\[\#161b22\]:hover {
+  background-color: #f6f8fa;
+}
+
+html[data-theme="light"] .hover\:bg-\[\#30363d\]:hover {
+  background-color: #eaeef2;
+}
+
+html[data-theme="light"] .hover\:text-\[\#c9d1d9\]:hover,
+html[data-theme="light"] .hover\:text-\[\#e6edf3\]:hover {
+  color: #1f2328;
+}
+
+html[data-theme="light"] .hover\:text-\[\#58a6ff\]:hover,
+html[data-theme="light"] .hover\:text-\[\#79c0ff\]:hover,
+html[data-theme="light"] .hover\:text-\[\#1f6feb\]:hover {
+  color: #0969da;
+}
+
+/* Accent text — GitHub Light counterparts for easy readability */
+html[data-theme="light"] .text-\[\#58a6ff\],
+html[data-theme="light"] .text-\[\#79c0ff\],
+html[data-theme="light"] .text-\[\#7d5cff\] {
+  color: #0969da;
+}
+
+html[data-theme="light"] .text-\[\#3fb950\],
+html[data-theme="light"] .text-\[\#4ade80\] {
+  color: #1a7f37;
+}
+
+html[data-theme="light"] .text-\[\#a371f7\] {
+  color: #8250df;
+}
+
+html[data-theme="light"] .text-\[\#ff7b72\],
+html[data-theme="light"] .text-\[\#f85149\] {
+  color: #cf222e;
+}
+
+html[data-theme="light"] .hover\:border-\[\#484f58\]:hover,
+html[data-theme="light"] .hover\:border-\[\#30363d\]:hover {
+  border-color: #d0d7de;
+}
+
+/* Red semantic hovers stay red but lightened for light bg */
+html[data-theme="light"] .hover\:bg-\[\#f85149\]:hover,
+html[data-theme="light"] .hover\:bg-\[\#da3633\]:hover {
+  background-color: #ffebe9;
+}
+
+html[data-theme="light"] .hover\:text-\[\#f85149\]:hover,
+html[data-theme="light"] .hover\:text-\[\#ff7b72\]:hover {
+  color: #cf222e;
+}
+
+/* Group-hover variants (used in profile, sources, new-chat, icons) */
+html[data-theme="light"] .group:hover .group-hover\:bg-\[\#21262d\],
+html[data-theme="light"] .group:hover .group-hover\:bg-\[\#1c2128\] {
+  background-color: #f6f8fa;
+}
+
+html[data-theme="light"] .group:hover .group-hover\:text-\[\#c9d1d9\],
+html[data-theme="light"] .group:hover .group-hover\:text-\[\#e6edf3\],
+html[data-theme="light"] .group:hover .group-hover\:text-white {
+  color: #1f2328;
+}
+
+html[data-theme="light"] .group:hover .group-hover\:text-\[\#1f6feb\],
+html[data-theme="light"] .group:hover .group-hover\:text-\[\#58a6ff\] {
+  color: #0969da;
+}
+
+/* Profile section — dedicated visible light hover + inner elements */
+html[data-theme="light"] .dc-profile-btn:hover {
+  background-color: #eaeef2;
+}
+
+html[data-theme="light"] .dc-profile-btn:hover .text-\[\#c9d1d9\] {
+  color: #1f2328;
+}
+
+html[data-theme="light"] .dc-profile-btn:hover .text-\[\#8b949e\] {
+  color: #57606a;
+}
+
+html[data-theme="light"] .dc-profile-btn:hover .bg-\[\#21262d\] {
+  background-color: #eaeef2;
+}
+
+/* Plain hover:text-white (UserMenu items) needs a light counterpart */
+html[data-theme="light"] .dc-popover .hover\:text-white:hover {
+  color: #1f2328;
+}
+
+html[data-theme="light"] .dc-popover .active\:bg-\[\#21262d\]:active,
+html[data-theme="light"] .dc-popover .hover\:bg-\[\#21262d\]:hover,
+html[data-theme="light"] .dc-popover .hover\:bg-\[\#1c2128\]:hover,
+html[data-theme="light"] .dc-popover .active\:bg-\[\#1c2128\]:active {
+  background-color: #eaeef2;
+}
+
+/* Provider badges in the Guide — keep brand tint but force
+   readable dark text on the light canvas. */
+html[data-theme="light"] .dc-guide-badge {
+  color: #1f2328 !important;
+}
+
+/* =========================================
+   LIGHT THEME — INPUTS & PLACEHOLDERS
+========================================= */
+
+html[data-theme="light"] input,
+html[data-theme="light"] textarea,
+html[data-theme="light"] select {
+  color: #1f2328;
+}
+
+html[data-theme="light"] input::placeholder,
+html[data-theme="light"] textarea::placeholder {
+  color: #8b949e;
+}
+
+html[data-theme="light"] option {
+  background-color: #ffffff;
+  color: #1f2328;
+}
+
+/* =========================================
+   LIGHT THEME — CODE & TABLES & DOCX
+========================================= */
+
+html[data-theme="light"] pre {
+  background: #f6f8fa;
+  color: #24292f;
+}
+
+html[data-theme="light"] .code-block-wrapper {
+  background: #ffffff;
+  border-color: #d0d7de;
+}
+
+html[data-theme="light"] .code-block-wrapper .code-header {
+  background: #f6f8fa;
+  border-bottom-color: #d0d7de;
+}
+
+html[data-theme="light"] .code-block-wrapper pre {
+  background: #ffffff;
+}
+
+html[data-theme="light"] .code-block-wrapper code {
+  color: #24292f;
+}
+
+html[data-theme="light"] .code-block-wrapper .code-header .language-tag,
+html[data-theme="light"] .code-block-wrapper .code-header .copy-btn {
+  color: #656d76;
+}
+
+html[data-theme="light"] .code-block-wrapper .code-header .copy-btn:hover {
+  background: #f0f6fc;
+  color: #1f2328;
+}
+
+html[data-theme="light"] .table-wrapper {
+  border-color: #d0d7de;
+}
+
+html[data-theme="light"] .table-wrapper th,
+html[data-theme="light"] .table-wrapper td {
+  color: #24292f;
+  border-color: #d0d7de;
+}
+
+html[data-theme="light"] .table-wrapper th {
+  background: #f6f8fa;
+}
+
+html[data-theme="light"] .table-wrapper tr:hover td {
+  background: #f0f6fc;
+}
+
+html[data-theme="light"] .chat-scrollbar {
+  scrollbar-color: #d0d7de transparent;
+}
+
+html[data-theme="light"] .chat-scrollbar::-webkit-scrollbar-thumb {
+  background-color: #c1c9d1;
+}
+
+/* =========================================
+   LIGHT THEME — MODALS / OVERLAY BACKDROPS
+========================================= */
+
+html[data-theme="light"] .bg-black\/40,
+html[data-theme="light"] .bg-black\/60,
+html[data-theme="light"] .bg-black\/90,
+html[data-theme="light"] .bg-black\/70 {
+  background-color: rgba(31, 35, 40, 0.5);
+}
+
+/* =========================================
+   LIGHT THEME — SIDEBAR
+========================================= */
+
+html[data-theme="light"] .dc-sidebar {
+  background-image: linear-gradient(180deg, #ffffff 0%, #f6f8fa 45%, #f6f8fa 100%);
+  border-color: #d0d7de;
+}
+
+html[data-theme="light"] .dc-sidebar .bg-white\/\[0\.04\],
+html[data-theme="light"] .dc-sidebar .bg-white\/\[0\.03\],
+html[data-theme="light"] .dc-sidebar .via-white\/15 {
+  display: none;
+}
+
+html[data-theme="light"] .dc-sidebar .bg-white\/\[0\.015\],
+html[data-theme="light"] .dc-sidebar .bg-white\/\[0\.02\],
+html[data-theme="light"] .dc-sidebar .bg-white\/5,
+html[data-theme="light"] .dc-sidebar .bg-white\/10 {
+  background-color: #f6f8fa;
+}
+
+html[data-theme="light"] .dc-sidebar .from-\[\#3f4652\] {
+  --tw-gradient-from: #eaeef2;
+  --tw-gradient-stops: var(--tw-gradient-via-stops, var(--tw-gradient-position),
+    var(--tw-gradient-from) var(--tw-gradient-from-position),
+    var(--tw-gradient-to) var(--tw-gradient-to-position));
+}
+
+html[data-theme="light"] .dc-sidebar .to-\[\#232830\] {
+  --tw-gradient-to: #d0d7de;
+}
+
+html[data-theme="light"] .dc-sidebar .text-\[\#d5dae2\] {
+  color: #656d76;
+}
+
+html[data-theme="light"] .dc-sidebar .bg-black\/40,
+html[data-theme="light"] .dc-sidebar .bg-black\/20 {
+  background-color: rgba(0, 0, 0, 0.04);
+}
+
+/* Sidebar chat history items — visible light hover */
+html[data-theme="light"] .dc-sidebar .hover\:bg-\[\#161b22\]:hover,
+html[data-theme="light"] .dc-sidebar .hover\:bg-\[\#21262d\]:hover,
+html[data-theme="light"] .dc-sidebar .hover\:bg-\[\#1c2128\]:hover {
+  background-color: #eaeef2;
+}
+
+html[data-theme="light"] .dc-sidebar .hover\:text-\[\#c9d1d9\]:hover {
+  color: #1f2328;
+}
+
+/* =========================================
+   LIGHT THEME — POPOVERS / MENUS
+========================================= */
+
+html[data-theme="light"] .dc-popover {
+  background: rgba(255, 255, 255, 0.96);
+  border-color: #d0d7de;
+  box-shadow: 0 24px 60px rgba(31, 35, 40, 0.12), 0 8px 20px rgba(31, 35, 40, 0.08);
+}
+
+html[data-theme="light"] .dc-popover .ring-black\/50 {
+  --tw-ring-color: rgba(0, 0, 0, 0.06);
+}
+
+html[data-theme="light"] .dc-popover .border-white\/\[0\.06\],
+html[data-theme="light"] .dc-popover .border-white\/\[0\.08\],
+html[data-theme="light"] .dc-popover .border-white\/10 {
+  border-color: #eaeef2;
+}
+
+html[data-theme="light"] .dc-popover .hover\:bg-white\/\[0\.06\]:hover,
+html[data-theme="light"] .dc-popover .hover\:bg-white\/10:hover,
+html[data-theme="light"] .dc-popover .hover\:bg-white\/\[0\.08\]:hover {
+  background-color: #f6f8fa;
+}
+
+html[data-theme="light"] .dc-popover .active\:bg-white\/\[0\.08\]:active,
+html[data-theme="light"] .dc-popover .active\:bg-white\/10:active {
+  background-color: #eaeef2;
+}
+
+/* =========================================
+   CHAT TEXTBOX — LIGHT
+   The dark-mode shadow (0.45 black spread) looks
+   like a heavy glow on a white box. Soften it.
+========================================= */
+
+html[data-theme="light"] .dc-chat-box {
+  box-shadow: 0 1px 3px rgba(31, 35, 40, 0.08);
+  border-color: #d0d7de;
+}
+
+html[data-theme="light"] .dc-chat-box:focus-within {
+  border-color: #0969da;
+  box-shadow: 0 0 0 3px rgba(9, 105, 218, 0.15);
+}
+
+/* =========================================
+   THEME-AWARE DROPDOWNS / INTERACTIVE
+========================================= */
+
+.dc-selector-dropdown {
+  background: var(--dropdown-bg);
+  border-color: var(--dropdown-border);
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.6);
+}
+
+html[data-theme="light"] .dc-selector-dropdown {
+  box-shadow: 0 24px 60px rgba(31, 35, 40, 0.12);
+}
+
+.dc-dd-label {
+  color: var(--dropdown-heading);
+}
+
+.dc-dd-item {
+  transition: background-color 0.15s ease;
+}
+
+.dc-dd-item:hover {
+  background-color: var(--dropdown-hover);
+}
+
+.dc-dd-item:active {
+  background-color: var(--dropdown-hover);
+}
+
+.dc-dd-footer {
+  transition: background-color 0.15s ease;
+}
+
+.dc-dd-footer:hover {
+  background-color: var(--dropdown-hover);
+}
+
+.dc-dd-icon {
+  background-color: var(--dropdown-icon-bg);
+  color: var(--dropdown-subtext);
+}
+
+html[data-theme="light"] .dc-dd-icon {
+  color: #656d76;
+}
+
+.dc-dd-name {
+  color: var(--dropdown-text);
+}
+
+.dc-dd-sub {
+  color: var(--dropdown-subtext);
+}
+
+/* =========================================
+   CODE BLOCKS — both themes
+========================================= */
+
+.dc-code-block {
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.24);
+}
+
+html[data-theme="light"] .dc-code-block {
+  box-shadow: 0 8px 24px rgba(31, 35, 40, 0.08);
+}
+
+html[data-theme="light"] .dc-code-block .dc-code-head {
+  background: #f6f8fa;
+}
+
+html[data-theme="light"] .dc-code-lang {
+  color: #656d76;
+}
+
+html[data-theme="light"] .dc-code-copy:hover {
+  background: #eaeef2;
+  color: #1f2328;
+}
+
+/* =========================================
+   TABLES — both themes
+========================================= */
+
+html[data-theme="light"] .dc-table {
+  border-color: #d0d7de;
+  box-shadow: 0 6px 24px rgba(31, 35, 40, 0.06);
+}
+
+html[data-theme="light"] .dc-table-th {
+  background: #f6f8fa;
+}
+
+html[data-theme="light"] .dc-code-block pre,
+html[data-theme="light"] .dc-table pre {
+  background: transparent;
+}
+
+html[data-theme="light"] .dc-code-block code,
+html[data-theme="light"] .dc-table code {
+  color: #24292f;
+}
+
+/* =========================================
+   TABLE / OUTPUT BARS + COPY CHIPS — LIGHT
+========================================= */
+
+html[data-theme="light"] .dc-table-bar {
+  background: #f6f8fa;
+  border-color: #d0d7de;
+}
+
+html[data-theme="light"] .dc-pre-block {
+  background: #ffffff;
+  border-color: #d0d7de;
+  box-shadow: 0 6px 24px rgba(31, 35, 40, 0.06);
+}
+
+html[data-theme="light"] .dc-pre-block pre {
+  background: #ffffff;
+}
+
+html[data-theme="light"] .dc-copy-chip {
+  color: #656d76;
+}
+
+html[data-theme="light"] .dc-copy-chip:hover {
+  background: #eaeef2;
+  color: #1f2328;
+}
+
+html[data-theme="light"] .dc-copy-chip:active {
+  background: #d0d7de;
+}
+
+/* =========================================
+   SCROLL-TO-BOTTOM ARROW — LIGHT
+========================================= */
+
+html[data-theme="light"] .dc-scroll-arrow {
+  background: rgba(255, 255, 255, 0.92);
+  border-color: #d0d7de;
+  color: #656d76;
+  box-shadow: 0 8px 30px rgba(31, 35, 40, 0.12);
+}
+
+html[data-theme="light"] .dc-scroll-arrow:hover {
+  background: #eaeef2;
+  border-color: #9ec5fe;
+  color: #1f2328;
+}
+
+/* =========================================
+   SIDEBAR NEW CHAT BUTTON — LIGHT
+========================================= */
+
+html[data-theme="light"] .dc-new-chat {
+  background-image: linear-gradient(to bottom, #ffffff, #f6f8fa);
+  border-color: #d0d7de;
+  color: #1f2328;
+  box-shadow: none;
+}
+
+html[data-theme="light"] .dc-new-chat:hover {
+  background-image: linear-gradient(to bottom, #f0f6fc, #ffffff);
+  border-color: #9ec5fe;
+  color: #1f2328;
+  box-shadow: 0 8px 24px rgba(31, 35, 40, 0.08);
+}
+
+html[data-theme="light"] .dc-new-chat .group-hover\:rotate-90,
+html[data-theme="light"] .dc-new-chat .group-hover\:text-white {
+  color: #1f2328;
+}
+
+html[data-theme="light"] .dc-new-chat .text-\[\#9aa3b0\] {
+  color: #656d76;
+}
+
+/* =========================================
+   WEB SEARCH SOURCE CARDS — LIGHT
+========================================= */
+
+html[data-theme="light"] .dc-source-card {
+  background: #ffffff;
+  border-color: #d0d7de;
+}
+
+html[data-theme="light"] .dc-source-card:hover,
+html[data-theme="light"] .dc-source-card.border-blue-500\/20 {
+  background: #f0f6fc;
+  border-color: #0969da;
+}
+
+html[data-theme="light"] .dc-source-card .group-hover\:text-white,
+html[data-theme="light"] .dc-source-card .text-\[\#d7dce1\] {
+  color: #1f2328;
+}
+
+html[data-theme="light"] .dc-source-card .text-\[\#555\] {
+  color: #656d76;
+}
+
+/* =========================================
+   FILE PREVIEW COLLAPSE / CLOSE BTNS — LIGHT
+========================================= */
+
+html[data-theme="light"] .dc-preview-btn {
+  color: #656d76;
+}
+
+html[data-theme="light"] .dc-preview-btn:hover {
+  background: #eaeef2;
+  color: #1f2328;
+}
+
+html[data-theme="light"] .dc-preview-btn:active {
+  background: #d0d7de;
+}
+
+/* =========================================
+   CHAT INPUT "+" MENU — LIGHT + items
+========================================= */
+
+.dc-plus-menu {
+  background: rgba(22, 27, 34, 0.95);
+  border-color: var(--dropdown-border);
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.7);
+}
+
+html[data-theme="light"] .dc-plus-menu {
+  background: rgba(255, 255, 255, 0.97);
+  box-shadow: 0 20px 50px rgba(31, 35, 40, 0.14);
+}
+
+html[data-theme="light"] .dc-plus-menu .bg-\[\#202327\],
+html[data-theme="light"] .dc-plus-menu .bg-\[\#30363d\] {
+  background-color: #d0d7de;
+}
+
+.dc-plus-item {
+  color: var(--dropdown-text);
+  transition: background-color 0.15s ease, color 0.15s ease;
+}
+
+.dc-plus-item:hover {
+  background-color: var(--dropdown-hover);
+}
+
+.dc-plus-icon {
+  color: var(--dropdown-subtext);
+}
+
+/* =========================================
+   TEXT-BOX TOOLBAR ICONS — LIGHT hover
+========================================= */
+
+html[data-theme="light"] .dc-text-btn {
+  color: #656d76;
+}
+
+html[data-theme="light"] .dc-text-btn:hover {
+  background: #eaeef2;
+  color: #1f2328;
+}
+
+html[data-theme="light"] .dc-text-btn:active {
+  background: #d0d7de;
+}
+
+html[data-theme="light"] .dc-send-btn.bg-\[\#111214\] {
+  background: #eaeef2;
+  color: #8b949e;
+}
+
+/* =========================================
+   MODEL SELECTOR TRIGGER — LIGHT
+========================================= */
+
+html[data-theme="light"] .dc-model-btn {
+  background: #ffffff;
+  border-color: #d0d7de;
+  color: #1f2328;
+}
+
+html[data-theme="light"] .dc-model-btn:hover {
+  background: #f0f6fc;
+  border-color: #9ec5fe;
+  color: #1f2328;
+}
+
+html[data-theme="light"] .dc-model-btn .text-\[\#8b949e\] {
+  color: #1f2328;
+}
+
+html[data-theme="light"] .dc-model-btn .text-\[\#555\] {
+  color: #656d76;
+}
+
+html[data-theme="light"] .dc-model-btn .group-hover\:text-white {
+  color: #1f2328;
+}
+
+/* =========================================
+   PRIVACY NOTICE + PRIVACY BADGE — LIGHT
+========================================= */
+
+html[data-theme="light"] .dc-privacy-notice {
+  background: rgba(255, 255, 255, 0.97);
+  border-color: #d0d7de;
+  box-shadow: 0 24px 60px rgba(31, 35, 40, 0.14);
+}
+
+html[data-theme="light"] .dc-privacy-notice .text-\[\#e6edf3\] {
+  color: #1f2328;
+}
+
+html[data-theme="light"] .dc-privacy-notice .text-\[\#8b949e\] {
+  color: #656d76;
+}
+
+html[data-theme="light"] .dc-privacy-notice .hover\:bg-\[\#21262d\]:hover {
+  background-color: #eaeef2;
+}
+
+html[data-theme="light"] .dc-privacy-notice .hover\:text-\[\#c9d1d9\]:hover {
+  color: #1f2328;
+}
+
+html[data-theme="light"] .dc-privacy-notice .text-\[\#58a6ff\] {
+  color: #0969da;
+}
+
+html[data-theme="light"] .dc-privacy-notice .hover\:text-\[\#79c0ff\]:hover {
+  color: #0969da;
+}
+
+html[data-theme="light"] .dc-privacy-badge {
+  background: #ffffff;
+  border-color: #d0d7de;
+  color: #656d76;
+}
+
+html[data-theme="light"] .dc-privacy-badge:hover {
+  background: #f0f6fc;
+  border-color: #9ec5fe;
+  color: #1f2328;
+}
+
+html[data-theme="light"] .dc-privacy-badge .bg-\[\#8b949e\] {
+  background-color: #8b949e;
+}
+
+html[data-theme="light"] .dc-privacy-badge.border-\[\#30363d\] {
+  border-color: #d0d7de;
+}
+
+html[data-theme="light"] .dc-privacy-badge .bg-\[\#3fb950\] {
+  background-color: #1a7f37;
+}
+
+html[data-theme="light"] .dc-privacy-badge.text-\[\#3fb950\] {
+  color: #1a7f37;
+}
+
+html[data-theme="light"] .dc-privacy-badge.border-\[\#238636\]\/40 {
+  border-color: rgba(31, 136, 61, 0.4);
+}
+
+html[data-theme="light"] .dc-privacy-badge.bg-\[\#238636\]\/10 {
+  background-color: rgba(31, 136, 61, 0.1);
+}
+
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+
+  --font-sans:
+    system-ui,
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    Helvetica,
+    Arial,
+    sans-serif;
+
+  --font-mono:
+    "SFMono-Regular",
+    Consolas,
+    "Liberation Mono",
+    Menlo,
+    monospace;
+}
+
+/* =========================================
+   CURVED BOX EDGES — global radius scale
+   Every rounded-* utility now resolves to
+   a visibly curved corner.
+========================================= */
+
+@theme {
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 14px;
+  --radius-xl: 18px;
+  --radius-2xl: 24px;
+  --radius-3xl: 28px;
+}
+
+/* =========================================
+   RESET
+========================================= */
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background: #0d1117;
+  color: #c9d1d9;
+
+  font-family:
+    system-ui,
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    Helvetica,
+    Arial,
+    sans-serif;
+
+  font-size: 15px;
+  line-height: 1.5;
+
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+/* =========================================
+   SCROLLBAR - HIDDEN BY DEFAULT
+========================================= */
+
+* {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+*::-webkit-scrollbar {
+  display: none;
+  width: 0;
+  height: 0;
+}
+
+/* =========================================
+   CHAT SCROLLBAR - VISIBLE ON HOVER
+========================================= */
+
+.chat-scrollbar {
+  scrollbar-width: thin;
+  scrollbar-color: #30363d transparent;
+  -ms-overflow-style: -ms-autohiding-scrollbar;
+}
+
+.chat-scrollbar::-webkit-scrollbar {
+  display: block;
+  width: 4px;
+  height: 4px;
+  background: transparent;
+}
+
+.chat-scrollbar::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.chat-scrollbar::-webkit-scrollbar-thumb {
+  background-color: #30363d !important;
+  border-radius: 10px;
+}
+
+.chat-scrollbar::-webkit-scrollbar-thumb:hover {
+  background-color: #484f58 !important;
+}
+
+.chat-scrollbar:not(:hover)::-webkit-scrollbar-thumb {
+  background-color: transparent !important;
+}
+
+.chat-scrollbar:not(:hover) {
+  scrollbar-color: transparent transparent;
+}
+
+.chat-scrollbar:hover::-webkit-scrollbar-thumb {
+  background-color: #30363d !important;
+}
+
+.chat-scrollbar:hover {
+  scrollbar-color: #30363d transparent;
+}
+
+.chat-scrollbar:not(:hover)::-webkit-scrollbar-thumb {
+  background: transparent;
+}
+
+.chat-scrollbar:not(:hover) {
+  scrollbar-color: transparent transparent;
+}
+
+.chat-scrollbar:hover::-webkit-scrollbar-thumb {
+  background: #30363d;
+}
+
+.chat-scrollbar:hover {
+  scrollbar-color: #30363d transparent;
+}
+
+/* =========================================
+   TABLE SCROLL - VISIBLE HORIZONTAL SCROLLBAR
+========================================= */
+
+.dc-table-scroll {
+  scrollbar-width: thin;
+  scrollbar-color: #30363d transparent;
+  -ms-overflow-style: auto;
+  overscroll-behavior-x: contain;
+}
+
+.dc-table-scroll::-webkit-scrollbar {
+  display: block;
+  width: 8px;
+  height: 8px;
+  background: transparent;
+}
+
+.dc-table-scroll::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.dc-table-scroll::-webkit-scrollbar-thumb {
+  background-color: #30363d;
+  border-radius: 10px;
+}
+
+.dc-table-scroll::-webkit-scrollbar-thumb:hover {
+  background-color: #484f58;
+}
+
+.dc-table-scroll::-webkit-scrollbar-corner {
+  background: transparent;
+}
+
+html[data-theme="light"] .dc-table-scroll {
+  scrollbar-color: #d0d7de transparent;
+}
+
+html[data-theme="light"] .dc-table-scroll::-webkit-scrollbar-thumb {
+  background-color: #d0d7de;
+}
+
+html[data-theme="light"] .dc-table-scroll::-webkit-scrollbar-thumb:hover {
+  background-color: #afb8c1;
+}
+
+/* =========================================
+   TEXT SELECTION
+========================================= */
+
+::selection {
+  background: #1f6feb;
+  color: #ffffff;
+}
+
+/* =========================================
+   INPUT
+========================================= */
+
+input,
+textarea {
+  font-family: inherit;
+}
+
+input::placeholder,
+textarea::placeholder {
+  color: #484f58;
+}
+
+input:focus,
+textarea:focus {
+  outline: none;
+}
+
+/* =========================================
+   BUTTON
+========================================= */
+
+button {
+  font-family: inherit;
+  user-select: none;
+}
+
+/* =========================================
+   CODE
+========================================= */
+
+code,
+pre {
+  font-family:
+    "SFMono-Regular",
+    Consolas,
+    "Liberation Mono",
+    Menlo,
+    monospace;
+}
+
+pre {
+  background: #161b22;
+  color: #c9d1d9;
+}
+
+/* =========================================
+   CODE BLOCK - SYNTAX HIGHLIGHTING WRAPPER
+========================================= */
+
+.code-block-wrapper {
+  background: #161b22;
+  border-radius: 6px;
+  overflow: hidden;
+  border: 1px solid #30363d;
+}
+
+.code-block-wrapper .code-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 16px;
+  background: #161b22;
+  border-bottom: 1px solid #30363d;
+}
+
+.code-block-wrapper .code-header .language-tag {
+  font-size: 11px;
+  font-family: monospace;
+  color: #8b949e;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.code-block-wrapper .code-header .copy-btn {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 4px 10px;
+  border-radius: 6px;
+  font-size: 11px;
+  color: #8b949e;
+  transition: all 0.2s ease;
+  cursor: pointer;
+  background: transparent;
+  border: none;
+}
+
+.code-block-wrapper .code-header .copy-btn:hover {
+  background: #30363d;
+  color: #c9d1d9;
+}
+
+.code-block-wrapper .code-header .copy-btn.copied {
+  color: #3fb950;
+}
+
+.code-block-wrapper pre {
+  margin: 0;
+  padding: 16px;
+  background: #161b22;
+  overflow-x: auto;
+}
+
+.code-block-wrapper code {
+  font-size: 13px;
+  font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
+  line-height: 1.6;
+  color: #c9d1d9;
+}
+
+/* =========================================
+   TABLE STYLES - HORIZONTAL SCROLL
+========================================= */
+
+.table-wrapper {
+  overflow-x: auto;
+  margin: 16px 0;
+  border-radius: 6px;
+  border: 1px solid #30363d;
+}
+
+.table-wrapper table {
+  width: 100%;
+  min-width: 600px;
+  border-collapse: collapse;
+  font-size: 13px;
+}
+
+.table-wrapper th {
+  background: #161b22;
+  padding: 10px 16px;
+  text-align: left;
+  font-weight: 600;
+  color: #c9d1d9;
+  border-right: 1px solid #30363d;
+  white-space: nowrap;
+}
+
+.table-wrapper td {
+  padding: 10px 16px;
+  color: #c9d1d9;
+  border-right: 1px solid #30363d;
+  border-top: 1px solid #30363d;
+}
+
+.table-wrapper th:last-child,
+.table-wrapper td:last-child {
+  border-right: none;
+}
+
+.table-wrapper tr:hover td {
+  background: #1c2128;
+}
+
+/* =========================================
+   SMOOTH SCROLL
+========================================= */
+
+html {
+  scroll-behavior: smooth;
+}
+
+/* =========================================
+   TABLE SCROLL FIX
+========================================= */
+
+.table-wrapper {
+  overflow-x: auto;
+  overflow-y: visible;
+  margin: 16px 0;
+  border-radius: 6px;
+  border: 1px solid #30363d;
+  -webkit-overflow-scrolling: touch;
+}
+
+.table-wrapper table {
+  width: 100%;
+  min-width: 600px;
+  border-collapse: collapse;
+  font-size: 13px;
+}
+
+/* =========================================
+   CHAT SCROLLBAR - IMPROVED
+========================================= */
+
+.chat-scrollbar {
+  scroll-behavior: smooth;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+}
+
+/* =========================================
+   WORD DOCUMENT PREVIEW (.docx)
+========================================= */
+
+.doc-page {
+  font-size: 15px;
+  line-height: 1.5;
+  color: #1a1a1a;
+  word-wrap: break-word;
+  white-space: pre-wrap;
+  font-family: Calibri, "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+}
+
+.doc-page p {
+  margin: 0 0 15px;
+  font-size: 15px;
+  line-height: 1.5;
+  color: #1a1a1a;
+  white-space: pre-wrap;
+}
+
+/* Preserve blank lines: an empty/whitespace-only <p> in the source still
+   occupies a real line height, like an empty paragraph in Word. */
+.doc-page p:empty,
+.doc-page p:has(> :only-child:empty) {
+  min-height: 1.5em;
+}
+
+.doc-page h1,
+.doc-page h2,
+.doc-page h3,
+.doc-page h4,
+.doc-page h5,
+.doc-page h6 {
+  color: #111111;
+  margin: 20px 0 10px;
+  line-height: 1.3;
+}
+
+.doc-page h1 {
+  font-size: 24px;
+}
+
+.doc-page h2 {
+  font-size: 20px;
+}
+
+.doc-page h3 {
+  font-size: 17px;
+}
+
+.doc-page ul,
+.doc-page ol {
+  margin: 0 0 12px;
+  padding-left: 26px;
+  color: #1a1a1a;
+}
+
+.doc-page li {
+  margin: 4px 0;
+}
+
+.doc-page table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 12px 0;
+  font-size: 13px;
+}
+
+.doc-page table th,
+.doc-page table td {
+  border: 1px solid #d0d0d0;
+  padding: 6px 10px;
+  color: #1a1a1a;
+}
+
+.doc-page table th {
+  background: #f4f4f4;
+  font-weight: 600;
+}
+
+.doc-page blockquote {
+  margin: 0 0 12px;
+  padding-left: 14px;
+  border-left: 3px solid #d0d0d0;
+  color: #555555;
+}
+
+.doc-page img {
+  max-width: 100%;
+  height: auto;
+}
+
+/* Smooth dark/light theme crossfade.
+ * Only enable transitions once the page has finished first paint, so the app
+ * doesn't animate colors on initial load.
+ */
+body {
+  transition: background-color 0.25s ease, color 0.25s ease;
+}
+
+/* Brief dip applied to the chat surface while the theme is changing, so the
+ * whole app fades smoothly regardless of how many hard-coded colors flip. */
+.dc-theme-fade {
+  animation: dc-theme-fade 0.32s ease forwards;
+}
+
+@keyframes dc-theme-fade {
+  0% {
+    opacity: 1;
+  }
+  40% {
+    opacity: 0.35;
+  }
+  100% {
+    opacity: 1;
+  }
+}
