@@ -788,9 +788,48 @@ async function htmlSearch(q: string): Promise<RefItem[]> {
   return refs;
 }
 
+// Wikipedia fallback search. DuckDuckGo's HTML endpoint frequently returns
+// 403 to serverless/data-center IPs, which previously produced zero reference
+// websites. Wikipedia's public API is open (no key) and reliably returns real
+// URLs, so factual queries always yield at least a few reference links.
+async function wikipediaFallbackSearch(query: string): Promise<RefItem[]> {
+  const refs: RefItem[] = [];
+  try {
+    const res = await fetch(
+      `https://en.wikipedia.org/w/api.php?action=opensearch&search=${encodeURIComponent(
+        query
+      )}&limit=4&namespace=0&format=json`,
+      {
+        headers: {
+          "User-Agent": "OrcaChat/1.0",
+          Accept: "application/json",
+        },
+        signal: AbortSignal.timeout(8000),
+      }
+    );
+    if (!res.ok) return refs;
+    const data = (await res.json()) as [string, string[], string[], string[]];
+    const [, titles, , urls] = data;
+    for (let i = 0; i < (titles || []).length; i++) {
+      const url = urls?.[i];
+      if (!url || !url.startsWith("http")) continue;
+      let domain = "";
+      try {
+        domain = new URL(url).hostname.replace("www.", "");
+      } catch {}
+      if (refs.some((r) => r.url === url)) continue;
+      refs.push({ title: titles[i], url, domain });
+    }
+  } catch (error) {
+    console.warn("⚠️ Wikipedia fallback search failed:", error);
+  }
+  return refs;
+}
+
 async function webSearchSites(query: string): Promise<RefItem[]> {
   const { refs: instant, principal } = await instantAnswerSearch(query);
   const html = await htmlSearch(query);
+  const wiki = await wikipediaFallbackSearch(query);
 
   const ordered: RefItem[] = [];
   const seen = new Set<string>();
@@ -804,6 +843,7 @@ async function webSearchSites(query: string): Promise<RefItem[]> {
   add(principal);
   html.forEach(add);
   instant.forEach(add);
+  wiki.forEach(add);
 
   return ordered.slice(0, 6);
 }

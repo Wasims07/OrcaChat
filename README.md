@@ -1,6 +1,6 @@
 <div align="center">
 
-<img src="./public/orca-logo.png" alt="OrcaChat" width="120" align="left" />
+<img src="./public/orca-logo.png" alt="OrcaChat" width="64" align="left" />
 
 # OrcaChat
 
