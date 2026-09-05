@@ -4,6 +4,8 @@
 
 # OrcaChat
 
+<br clear="all" />
+
 **A privacy-first AI chat that runs on your device and keeps your conversations local.**
 
 Built with **Next.js 16**, **React 19**, and **TypeScript**. Chat history and model keys stay encrypted in your browser; the server only proxies model requests and never stores your conversations.
