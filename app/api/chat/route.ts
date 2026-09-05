@@ -788,6 +788,47 @@ async function htmlSearch(q: string): Promise<RefItem[]> {
   return refs;
 }
 
+// Bing RSS search — keyless real-web fallback. Bing's RSS endpoint is lenient
+// with serverless/data-center IPs where DuckDuckGo returns 403, giving real
+// (non-Wikipedia) websites for deployed instances.
+async function bingRssSearch(query: string): Promise<RefItem[]> {
+  const refs: RefItem[] = [];
+  try {
+    const res = await fetch(
+      `https://www.bing.com/search?q=${encodeURIComponent(query)}&format=rss`,
+      {
+        headers: {
+          "User-Agent":
+            "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0 Safari/537.36",
+          Accept: "application/rss+xml, application/xml, text/xml, */*",
+        },
+        signal: AbortSignal.timeout(8000),
+      }
+    );
+    if (!res.ok) return refs;
+    const xml = await res.text();
+
+    const items = [...xml.matchAll(/<item>([\s\S]*?)<\/item>/gi)];
+    for (const m of items) {
+      const block = m[1];
+      const title = stripHtml(block.match(/<title>([\s\S]*?)<\/title>/i)?.[1] || "");
+      const rawLink = block.match(/<link>([\s\S]*?)<\/link>/i)?.[1] || "";
+      const link = rawLink.replace(/\?format=rss.*$/i, "").trim();
+      const desc = stripHtml(block.match(/<description>([\s\S]*?)<\/description>/i)?.[1] || "");
+      if (!title || !link || !link.startsWith("http")) continue;
+      let domain = "";
+      try {
+        domain = new URL(link).hostname.replace("www.", "");
+      } catch {}
+      if (domain === "bing.com" || refs.some((r) => r.url === link)) continue;
+      refs.push({ title, url: link, domain, snippet: desc.slice(0, 200) });
+    }
+  } catch (error) {
+    console.warn("⚠️ Bing RSS search failed:", error);
+  }
+  return refs;
+}
+
 // Wikipedia fallback search. DuckDuckGo's HTML endpoint frequently returns
 // 403 to serverless/data-center IPs, which previously produced zero reference
 // websites. Wikipedia's public full-text search API is open (no key) and
@@ -837,6 +878,7 @@ async function wikipediaFallbackSearch(query: string): Promise<RefItem[]> {
 async function webSearchSites(query: string): Promise<RefItem[]> {
   const { refs: instant, principal } = await instantAnswerSearch(query);
   const html = await htmlSearch(query);
+  const bing = await bingRssSearch(query);
   const wiki = await wikipediaFallbackSearch(query);
 
   const ordered: RefItem[] = [];
@@ -849,6 +891,7 @@ async function webSearchSites(query: string): Promise<RefItem[]> {
 
   // Most relevant article first (e.g. Wikipedia), then real web results.
   add(principal);
+  bing.forEach(add);
   html.forEach(add);
   instant.forEach(add);
   wiki.forEach(add);
