@@ -51,6 +51,7 @@ export default function ModelSelector({
   onModelChange = () => {},
 }: ModelSelectorProps) {
   const [isOpen, setIsOpen] = useState(false);
+  const [dropdownPos, setDropdownPos] = useState<{ left: number; top: number } | null>(null);
   const [models, setModels] = useState<ModelOption[]>([]);
   const [selectedId, setSelectedId] = useState(selectedModelId || "");
   const selectorRef = useRef<HTMLDivElement>(null);
@@ -119,7 +120,19 @@ export default function ModelSelector({
     <div ref={selectorRef} className="relative">
       <button
         type="button"
-        onClick={() => setIsOpen(!isOpen)}
+        onClick={() => {
+        if (isOpen) {
+          setIsOpen(false);
+          return;
+        }
+        const b = selectorRef.current?.getBoundingClientRect();
+        const iw = window.innerWidth;
+        const w = Math.min(300, iw - 16);
+        const left = Math.max(8, Math.min((b?.right ?? iw) - w, iw - w - 8));
+        const top = (b?.bottom ?? 40) + 4;
+        setDropdownPos({ left, top });
+        setIsOpen(true);
+      }}
         className="dc-model-btn group flex h-9 items-center gap-2 rounded-md border border-[#30363d] bg-[#161b22] px-3.5 text-[12.5px] font-medium text-[#8b949e] transition-all hover:border-[#484f58] hover:bg-[#21262d] hover:text-[#c9d1d9]"
         title="Select model"
       >
@@ -140,12 +153,19 @@ export default function ModelSelector({
       </button>
 
       {isOpen && (
-        <div className="dc-selector-dropdown absolute right-0 top-[40px] z-50 w-[300px] overflow-hidden rounded-md border border-[#30363d] bg-[#161b22] p-1.5 shadow-[0_20px_60px_rgba(0,0,0,0.7)]">
+        <div
+          className="dc-selector-dropdown fixed z-[210] w-[300px] max-w-[calc(100vw-16px)] overflow-hidden rounded-md border border-[#30363d] bg-[#161b22] p-1.5 shadow-[0_20px_60px_rgba(0,0,0,0.7)]"
+          style={
+            dropdownPos
+              ? { left: dropdownPos.left, top: dropdownPos.top }
+              : undefined
+          }
+        >
           <div className="dc-dd-label px-2.5 pb-2 pt-1.5 text-[11px] font-medium uppercase tracking-wide text-[#8b949e]">
             {hasModels ? "Your models" : "Base Model"}
           </div>
 
-          <div className="max-h-[300px] overflow-y-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+          <div className="max-h-[min(300px,55vh)] overflow-y-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
             {hasModels ? (
               models.map((model) => {
                 const isSelected = currentModel?.modelId === model.modelId;
