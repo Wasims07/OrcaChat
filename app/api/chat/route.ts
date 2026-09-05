@@ -829,57 +829,10 @@ async function bingRssSearch(query: string): Promise<RefItem[]> {
   return refs;
 }
 
-// Wikipedia fallback search. DuckDuckGo's HTML endpoint frequently returns
-// 403 to serverless/data-center IPs, which previously produced zero reference
-// websites. Wikipedia's public full-text search API is open (no key) and
-// reliably returns real URLs for ANY query (including natural-language
-// questions), so web search always yields at least a few reference links.
-async function wikipediaFallbackSearch(query: string): Promise<RefItem[]> {
-  const refs: RefItem[] = [];
-  try {
-    const res = await fetch(
-      `https://en.wikipedia.org/w/api.php?action=query&list=search&srsearch=${encodeURIComponent(
-        query
-      )}&format=json&srlimit=4`,
-      {
-        headers: {
-          "User-Agent": "OrcaChat/1.0",
-          Accept: "application/json",
-        },
-        signal: AbortSignal.timeout(8000),
-      }
-    );
-    if (!res.ok) return refs;
-    const data = (await res.json()) as {
-      query?: { search?: { title: string; snippet: string }[] };
-    };
-    for (const hit of data?.query?.search || []) {
-      const title = hit.title;
-      if (!title) continue;
-      const url = `https://en.wikipedia.org/wiki/${title.replace(/ /g, "_")}`;
-      let domain = "";
-      try {
-        domain = new URL(url).hostname.replace("www.", "");
-      } catch {}
-      if (refs.some((r) => r.url === url)) continue;
-      refs.push({
-        title,
-        url,
-        domain,
-        snippet: stripHtml(hit.snippet || "").slice(0, 200),
-      });
-    }
-  } catch (error) {
-    console.warn("⚠️ Wikipedia fallback search failed:", error);
-  }
-  return refs;
-}
-
 async function webSearchSites(query: string): Promise<RefItem[]> {
   const { refs: instant, principal } = await instantAnswerSearch(query);
   const html = await htmlSearch(query);
   const bing = await bingRssSearch(query);
-  const wiki = await wikipediaFallbackSearch(query);
 
   const ordered: RefItem[] = [];
   const seen = new Set<string>();
@@ -889,12 +842,11 @@ async function webSearchSites(query: string): Promise<RefItem[]> {
     ordered.push(r);
   };
 
-  // Most relevant article first (e.g. Wikipedia), then real web results.
+  // Most relevant result first, then real web results.
   add(principal);
   bing.forEach(add);
   html.forEach(add);
   instant.forEach(add);
-  wiki.forEach(add);
 
   return ordered.slice(0, 6);
 }
