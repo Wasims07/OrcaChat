@@ -203,7 +203,7 @@ export default function ModelsManager({ onClose }: ModelsManagerProps) {
       className="
         fixed
         inset-0
-        z-50
+        z-[200]
         flex
         items-center
         justify-center
@@ -215,17 +215,18 @@ export default function ModelsManager({ onClose }: ModelsManagerProps) {
     >
       <div
         className="
+          flex
+          h-[min(640px,85vh)]
           w-full
           max-w-lg
+          flex-col
+          overflow-hidden
           rounded-md
           border
           border-[#30363d]
           bg-[#161b22]
           p-6
           shadow-2xl
-          max-h-[85vh]
-          flex
-          flex-col
           animate-in
           zoom-in-95
           duration-200

@@ -225,10 +225,10 @@ export default function Guide({ onClose }: GuideProps) {
 
   return (
     <div
-      className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 p-3 backdrop-blur-sm sm:p-4"
+      className="fixed inset-0 z-[200] flex items-center justify-center bg-black/60 p-3 backdrop-blur-sm sm:p-4"
       onClick={(e) => e.target === e.currentTarget && onClose()}
     >
-      <div className="w-full max-w-3xl overflow-hidden rounded-lg border border-[#30363d] bg-[#161b22] shadow-2xl max-h-[88vh] flex flex-col animate-in zoom-in-95 duration-200">
+      <div className="flex h-[min(640px,85vh)] w-full max-w-3xl flex-col overflow-hidden rounded-lg border border-[#30363d] bg-[#161b22] shadow-2xl animate-in zoom-in-95 duration-200">
         {/* Header */}
         <div className="flex items-center justify-between border-b border-[#21262d] px-6 py-5">
           <div className="flex items-center gap-3">
