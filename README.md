@@ -19,11 +19,13 @@ Built with **Next.js 16**, **React 19**, and **TypeScript**. Chat history and mo
   - Anthropic (Claude) Messages API
   - Google Gemini
   - Custom base URLs and models with server-side key verification against the real provider.
-- **Web search** — optional built-in search with cited sources in answers.
+  - The provider is auto-detected from your API key prefix, base URL, or model name (OpenRouter, Anthropic, Gemini, Mistral, Hugging Face, DeepSeek, X.AI, Groq, Together, Fireworks, local Ollama/LM Studio…).
+- **Web search** — optional built-in search with cited sources in answers (Bing RSS + DuckDuckGo).
 - **File & image understanding**
   - PDF parsing, Word (.docx) via Mammoth, Excel (.xlsx) via SheetJS
   - Client-side OCR of images (Tesseract.js, loaded lazily) — image text works with any model, vision-capable or not.
-- **Responsive PWA** — dark/light themes, installable, works on mobile and desktop.
+- **Privacy-friendly retention** — automatic deletion of old chats keeps your browser storage tidy, while **pinned** conversations stay until you remove them.
+- **Installable web app** — web-app manifest (add-to-home-screen), dark/light themes, responsive on mobile and desktop.
 
 ## 🧱 Tech Stack
 
