@@ -1,5 +1,7 @@
 <div align="center">
 
+<img src="./public/orca-logo.png" alt="OrcaChat" width="120" />
+
 # OrcaChat
 
 **A privacy-first AI chat that runs on your device and keeps your conversations local.**
