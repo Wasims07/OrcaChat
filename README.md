@@ -27,6 +27,44 @@ Built with **Next.js 16**, **React 19**, and **TypeScript**. Chat history and mo
 - **Privacy-friendly retention** — automatic deletion of old chats keeps your browser storage tidy, while **pinned** conversations stay until you remove them.
 - **Installable web app** — web-app manifest (add-to-home-screen), dark/light themes, responsive on mobile and desktop.
 
+## 📦 Installation
+
+### Option A — Use it right now (no install)
+
+Just open the hosted instance — no account, no API key needed to start. Everything runs in your browser.
+
+### Option B — Run locally (npm)
+
+```bash
+npm install
+cp .env.example .env.local   # optional — see Configuration below
+npm run dev
+```
+
+Then open [http://localhost:3000](http://localhost:3000). Without any keys, the built-in free tier still works.
+
+### Option C — Self-host with Docker
+
+```bash
+docker build -t orcachat .
+docker run -d -p 3000:3000 \
+  -e REDIS_URL=redis://your-redis:6379 \
+  -e OPENROUTER_API_KEY_1=sk-or-v1-... \
+  --name orcachat \
+  orcachat
+```
+
+Or deploy the standalone build to any Node.js 20+ host by copying the `.next/standalone`, `.next/static`, and `public` directories and running `node server.js`.
+
+### Option D — Deploy to Vercel
+
+```bash
+npm i -g vercel
+vercel --prod
+```
+
+Set your [environment variables](#configuration) in the Vercel dashboard — never commit real keys.
+
 ## 🧱 Tech Stack
 
 | Layer | Tech |
@@ -129,23 +167,6 @@ npm test
 ```
 
 The suite covers chat storage, session auto-delete and pinning, free-tier boundaries, and crypto round-trips using a real IndexedDB implementation.
-
-## ☁️ Deployment
-
-### Vercel (recommended)
-
-Deploy with the Vercel Git integration (auto-deploys on every push) or the CLI:
-
-```bash
-npm i -g vercel
-vercel --prod
-```
-
-Set the [environment variables](#configuration) in the Vercel dashboard — never commit real keys.
-
-### Self-hosting (Docker)
-
-A `Dockerfile` with a standalone build is included for self-hosting.
 
 ## 📄 License
 
