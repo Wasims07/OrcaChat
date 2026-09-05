@@ -790,15 +790,16 @@ async function htmlSearch(q: string): Promise<RefItem[]> {
 
 // Wikipedia fallback search. DuckDuckGo's HTML endpoint frequently returns
 // 403 to serverless/data-center IPs, which previously produced zero reference
-// websites. Wikipedia's public API is open (no key) and reliably returns real
-// URLs, so factual queries always yield at least a few reference links.
+// websites. Wikipedia's public full-text search API is open (no key) and
+// reliably returns real URLs for ANY query (including natural-language
+// questions), so web search always yields at least a few reference links.
 async function wikipediaFallbackSearch(query: string): Promise<RefItem[]> {
   const refs: RefItem[] = [];
   try {
     const res = await fetch(
-      `https://en.wikipedia.org/w/api.php?action=opensearch&search=${encodeURIComponent(
+      `https://en.wikipedia.org/w/api.php?action=query&list=search&srsearch=${encodeURIComponent(
         query
-      )}&limit=4&namespace=0&format=json`,
+      )}&format=json&srlimit=4`,
       {
         headers: {
           "User-Agent": "OrcaChat/1.0",
@@ -808,17 +809,24 @@ async function wikipediaFallbackSearch(query: string): Promise<RefItem[]> {
       }
     );
     if (!res.ok) return refs;
-    const data = (await res.json()) as [string, string[], string[], string[]];
-    const [, titles, , urls] = data;
-    for (let i = 0; i < (titles || []).length; i++) {
-      const url = urls?.[i];
-      if (!url || !url.startsWith("http")) continue;
+    const data = (await res.json()) as {
+      query?: { search?: { title: string; snippet: string }[] };
+    };
+    for (const hit of data?.query?.search || []) {
+      const title = hit.title;
+      if (!title) continue;
+      const url = `https://en.wikipedia.org/wiki/${title.replace(/ /g, "_")}`;
       let domain = "";
       try {
         domain = new URL(url).hostname.replace("www.", "");
       } catch {}
       if (refs.some((r) => r.url === url)) continue;
-      refs.push({ title: titles[i], url, domain });
+      refs.push({
+        title,
+        url,
+        domain,
+        snippet: stripHtml(hit.snippet || "").slice(0, 200),
+      });
     }
   } catch (error) {
     console.warn("⚠️ Wikipedia fallback search failed:", error);
