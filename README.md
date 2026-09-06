@@ -31,10 +31,9 @@ Built with **Next.js 16**, **React 19**, and **TypeScript**. Chat history and mo
 
 ### Option A — Use it right now (no install)
 
-Just open the hosted instance — no account, no API key needed to start. Everything runs in your browser.
-```
-Link: [http://orcachatone.vercel.app](http://orcachatone.vercel.app)
-```
+- Just open the hosted instance — no account, no API key needed to start. Everything runs in your browser.
+- Link: [http://orcachatone.vercel.app](http://orcachatone.vercel.app)
+
 
 ### Option B — Run locally (npm)
 
