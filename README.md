@@ -10,6 +10,12 @@ Built with **Next.js 16**, **React 19**, and **TypeScript**. Chat history and mo
 
 ---
 
+## 📸 Screenshot
+
+![OrcaChat interface](docs/Orca_Screenshot.png)
+
+---
+
 ## ✨ Highlights
 
 - **Privacy by default** — conversations are stored **only in your browser** (IndexedDB), encrypted at rest with **AES-256-GCM** via Web Crypto. Model API keys you add are also encrypted before they touch storage.
@@ -26,6 +32,96 @@ Built with **Next.js 16**, **React 19**, and **TypeScript**. Chat history and mo
   - Client-side OCR of images (Tesseract.js, loaded lazily) — image text works with any model, vision-capable or not.
 - **Privacy-friendly retention** — automatic deletion of old chats keeps your browser storage tidy, while **pinned** conversations stay until you remove them.
 - **Installable web app** — web-app manifest (add-to-home-screen), dark/light themes, responsive on mobile and desktop.
+
+## 🏗️ System Architecture
+
+```mermaid
+flowchart TD
+    subgraph client["🖥️ Browser (Client)"]
+        UI["React 19 UI<br/>components/"]
+        IMG["OCR<br/>Tesseract.js"]
+        WEB["Web Search UI<br/>cited sources"]
+        WEBX["Web Crypto<br/>AES-256-GCM"]
+        DB[("IndexedDB<br/>encrypted chats")]
+        LS[("localStorage<br/>encrypted model keys")]
+    end
+
+    subgraph server["🛡️ Next.js Server"]
+        CHAT["POST /api/chat<br/>streaming + routing"]
+        VERIFY["POST /api/verify<br/>key validation"]
+        PDF["POST /api/parse-pdf"]
+        PREV["GET /api/preview-file"]
+        HEALTH["GET /api/healthz"]
+        LIMIT["Redis rate limiter<br/>(in-memory fallback)"]
+        CACHE["Redis cache<br/>(in-memory fallback)"]
+        AUDIT["AES-256-GCM<br/>audit log"]
+        LANG["franc<br/>language detection"]
+    end
+
+    subgraph external["🌐 External Services"]
+        PROVIDERS["OpenRouter • Anthropic • Gemini<br/>OpenAI-compatible • Ollama"]
+        SEARCH["Bing RSS + DuckDuckGo<br/>web search"]
+        CDN["Pinned CDN<br/>Tesseract workers"]
+    end
+
+    UI -->|encrypted at rest| WEBX
+    WEBX --> DB
+    WEBX --> LS
+    UI --> CHAT
+    UI --> PDF
+    UI --> PREV
+    IMG --> CDN
+    UI --> WEB
+    WEB --> SEARCH
+
+    CHAT --> LIMIT
+    CHAT --> CACHE
+    CHAT --> LANG
+    CHAT --> PROVIDERS
+    CHAT --> AUDIT
+    VERIFY --> LIMIT
+    VERIFY --> PROVIDERS
+    PDF --> LIMIT
+
+    style client fill:#0ea5e9,color:#fff
+    style server fill:#8b5cf6,color:#fff
+    style external fill:#0d9488,color:#fff
+```
+
+### Key data flows
+
+```mermaid
+sequenceDiagram
+    participant U as User (Browser)
+    participant S as Next.js Server
+    participant R as Redis (optional)
+    participant P as AI Provider
+
+    U->>U: Type message & send
+    U->>S: POST /api/chat (streaming)
+    S->>R: Check rate limit + cache
+    alt Cache hit
+        R-->>S: Cached reply
+    else Cache miss
+        S->>P: Forward request (auto-detected provider)
+        P-->>S: Stream tokens
+        S->>R: Cache + update rate-limit window
+        S->>U: Stream response
+    end
+    U->>U: Encrypt session (AES-256-GCM) → IndexedDB
+```
+
+### Layer responsibilities
+
+| Layer | Responsibility |
+| --- | --- |
+| **Presentation** | React chat shell, markdown rendering, sidebar, settings, previews (`components/`) |
+| **Client logic** | Chat crypto, storage, auto-delete & pinning, free-tier budgets, OCR, web search (`lib/`) |
+| **API layer** | Streaming chat, provider verification, PDF parsing, file previews, health checks (`app/api/`) |
+| **Infrastructure** | Redis-accelerated rate limiting & caching (graceful in-memory fallback), optional audit log |
+| **External** | AI providers (auto-detected), web search, pinned OCR CDN, browser-only persistence |
+
+> **Privacy boundary** — all conversation data and user-provided API keys live **only in the browser**, encrypted with AES-256-GCM. The server proxies model requests and never persists message content.
 
 ## 📦 Installation
 
