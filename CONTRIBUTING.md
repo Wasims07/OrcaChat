@@ -45,14 +45,13 @@ git remote add upstream https://github.com/Wasims07/OrcaChat.git
 # 4. Install dependencies
 npm install
 
-# 5. Copy the environment template (fill in keys as needed)
+# 5. Copy the environment template
 cp .env.example .env.local
-
-# 6. Run the app
-npm run dev
 ```
 
 Open [http://localhost:3000](http://localhost:3000) — the built-in free tier works without any API keys.
+
+> **Important:** The shared free tier uses project credits and is intended for evaluating the hosted demo. **Once you deploy or ship your own copy of this code, add your own API keys** (`OPENROUTER_API_KEY_1…5`, plus any custom model keys in the app's model manager). If you leave the free tier on, your instance shares the demo's OpenRouter credits. Set no `OPENROUTER_API_KEY_*` variables to disable the free tier and require every user to bring their own provider key.
 
 ## Development Workflow
 
