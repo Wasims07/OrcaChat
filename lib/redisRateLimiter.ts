@@ -96,12 +96,13 @@ export class RedisSlidingWindowRateLimiter {
 
     try {
       const pipeline = r.pipeline();
+      const member = `${now}:${Math.random().toString(36).slice(2, 8)}`;
       // Remove expired entries
       pipeline.zremrangebyscore(key, 0, windowStart);
       // Count current entries in window
       pipeline.zcard(key);
       // Add current request
-      pipeline.zadd(key, String(now), `${now}:${Math.random().toString(36).slice(2, 8)}`);
+      pipeline.zadd(key, String(now), member);
       // Set TTL so key auto-cleans
       pipeline.expire(key, Math.ceil(this.windowMs / 1000));
 
@@ -112,7 +113,7 @@ export class RedisSlidingWindowRateLimiter {
 
       if (count >= this.maxRequests) {
         // Over limit — remove the entry we just added
-        await r.zrem(key, `${now}:${Math.random().toString(36).slice(2, 8)}`).catch(() => {});
+        await r.zrem(key, member).catch(() => {});
         // Find oldest to compute retry-after
         const oldest = await r.zrange(key, 0, 0, "WITHSCORES");
         const oldestTs = oldest.length >= 2 ? Number(oldest[1]) : now;

@@ -149,19 +149,18 @@ export default function SettingsModal({
   };
 
   const handleUnarchive = (chatId: string) => {
-    toggleArchiveChat(chatId);
-    loadArchived();
+    void toggleArchiveChat(chatId).then(loadArchived);
   };
 
   const handleOpenArchivedChat = (chatId: string) => {
-    toggleArchiveChat(chatId);
-    onOpenChat?.(chatId);
-    closeModal();
+    void toggleArchiveChat(chatId).then(() => {
+      onOpenChat?.(chatId);
+      closeModal();
+    });
   };
 
   const handleDeleteArchived = (chatId: string) => {
-    deleteChatSession(chatId);
-    loadArchived();
+    void deleteChatSession(chatId).then(loadArchived);
   };
 
   const getTimeDisplay = (dateStr: string) => {

@@ -640,6 +640,11 @@ const FilePreviewPanel = memo(function FilePreviewPanel({
                     {source.title || domain}
                   </p>
                   <p className="truncate text-[11px] text-[#8b949e]">{domain}</p>
+                  {source.snippet && (
+                    <p className="dc-source-snippet mt-1 line-clamp-3 text-[11px] leading-relaxed text-[#8b949e]">
+                      {source.snippet}
+                    </p>
+                  )}
                 </div>
                 <ExternalLink
                   size={14}
@@ -1640,6 +1645,7 @@ export default function MainChat({
                 .find((m) => m.role === "user");
               return last?.content || "";
             })(),
+            stream: true,
             timezone: (() => {
               try {
                 return Intl.DateTimeFormat().resolvedOptions().timeZone || "UTC";
@@ -1999,7 +2005,6 @@ export default function MainChat({
   );
 
   // --- CONTINUE GENERATION ---
-  // --- CONTINUE GENERATION ---
 const handleContinue = useCallback(async () => {
   if (!lastAssistantId) return;
 
@@ -2061,7 +2066,8 @@ const handleContinue = useCallback(async () => {
             content: `Please continue your previous response exactly from where you stopped. Do not repeat what you already said. Continue naturally with the next part.`,
           },
         ],
-        webSearch: webSearchEnabled,
+        webSearch: false,
+        stream: true,
       }),
     });
 
@@ -2121,17 +2127,22 @@ const handleContinue = useCallback(async () => {
 
             if (content) {
               fullResponse += content;
-              updateMsgs((prev) =>
-                prev.map((msg) =>
-                  msg.id === continueMessage.id
-                    ? { ...msg, content: fullResponse }
-                    : msg
-                )
-              );
+              // Throttled render: batch token updates to ~40ms intervals so
+              // we don't re-render the whole tree on every streamed token.
+              const now = Date.now();
+              if (now - lastStreamRenderRef.current > 40) {
+                lastStreamRenderRef.current = now;
+                updateMsgs((prev) =>
+                  prev.map((msg) =>
+                    msg.id === continueMessage.id
+                      ? { ...msg, content: fullResponse }
+                      : msg
+                  )
+                );
+              }
 
               // ✅ Persist partial progress (throttled) so switching chats
               // mid-continue never loses the in-progress reply.
-              const now = Date.now();
               if (now - lastStreamSaveRef.current > 400 && currentChatId) {
                 lastStreamSaveRef.current = now;
                 const existing = getChatSession(currentChatId);
@@ -2164,6 +2175,14 @@ const handleContinue = useCallback(async () => {
       }
     }
 
+    // ✅ Flush any content throttled out of the last render window so the
+    // final continuation always matches the streamed text exactly.
+    updateMsgs((prev) =>
+      prev.map((msg) =>
+        msg.id === continueMessage.id ? { ...msg, content: fullResponse } : msg
+      )
+    );
+
     // ✅ Save to storage
     if (currentChatId) {
       const existingSession = getChatSession(currentChatId);
@@ -2189,7 +2208,7 @@ const handleContinue = useCallback(async () => {
     setError(error instanceof Error ? error.message : "Failed to continue generation");
     setIsLoading(false);
   }
-}, [messages, lastAssistantId, selectedModelId, selectedModelApiKey, selectedModelBaseUrl, currentChatId, webSearchEnabled, updateMsgs]);
+}, [messages, lastAssistantId, selectedModelId, selectedModelApiKey, selectedModelBaseUrl, currentChatId, updateMsgs]);
 
   // --- REGENERATE ---
   const handleRegenerate = useCallback(

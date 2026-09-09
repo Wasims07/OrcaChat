@@ -43,11 +43,12 @@ export default function Home() {
   };
 
   const handleDeleteChat = (chatId: string) => {
-    deleteChatSession(chatId);
-    if (selectedChatId === chatId) {
-      setSelectedChatId(null);
-      setActiveChatId(null);
-    }
+    void deleteChatSession(chatId).then(() => {
+      if (selectedChatId === chatId) {
+        setSelectedChatId(null);
+        setActiveChatId(null);
+      }
+    });
   };
 
   // Open Settings directly into the Privacy Policy view (used by the

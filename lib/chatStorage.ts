@@ -11,6 +11,7 @@ export type MessageSource = {
   url: string;
   domain?: string;
   favicon?: string;
+  snippet?: string;
 };
 
 export type ChatMessage = {
@@ -475,21 +476,40 @@ export function markChatOpened(id: string): void {
   }
 }
 
+// Ensure writes wait for hydration so we never act on a stale (empty) cache
+// before IndexedDB has loaded. Mutations that occur before hydration must
+// hydrate first and then apply the change to the freshly-loaded data.
+async function ensureCacheForMutation(): Promise<ChatSession[]> {
+  if (cache === null) {
+    await ensureHydrated();
+  }
+  return cache ?? [];
+}
+
 // Delete a chat session
-export function deleteChatSession(id: string): void {
-  if (cache === null) cache = [];
-  cache = cache.filter((s) => s.id !== id);
+export async function deleteChatSession(id: string): Promise<void> {
+  await ensureCacheForMutation();
+  const idx = cache!.findIndex((s) => s.id === id);
+  if (idx === -1) {
+    // Not in memory — still remove from IndexedDB directly.
+    void idbDelete(id).catch((err) =>
+      console.error("❌ chatStorage: failed to delete chat from IndexedDB", err)
+    );
+    notifyChatUpdate();
+    return;
+  }
+  cache = cache!.filter((s) => s.id !== id);
   // Delete from IndexedDB directly (faster than rewriting the whole store).
-  void idbDelete(id).catch((err) =>
+  await idbDelete(id).catch((err) =>
     console.error("❌ chatStorage: failed to delete chat from IndexedDB", err)
   );
   notifyChatUpdate();
 }
 
 // Update chat title (Rename) - keeps the original time/position
-export function updateChatTitle(id: string, title: string): void {
-  if (cache === null) return;
-  const session = cache.find((s) => s.id === id);
+export async function updateChatTitle(id: string, title: string): Promise<void> {
+  await ensureCacheForMutation();
+  const session = cache!.find((s) => s.id === id);
   if (session) {
     session.title = title;
     schedulePersist();
@@ -498,9 +518,9 @@ export function updateChatTitle(id: string, title: string): void {
 }
 
 // Pin a chat
-export function togglePinChat(id: string): void {
-  if (cache === null) cache = [];
-  const session = cache.find((s) => s.id === id);
+export async function togglePinChat(id: string): Promise<void> {
+  await ensureCacheForMutation();
+  const session = cache!.find((s) => s.id === id);
   if (session) {
     session.isPinned = !session.isPinned;
     session.updatedAt = new Date().toISOString();
@@ -510,9 +530,9 @@ export function togglePinChat(id: string): void {
 }
 
 // Archive a chat
-export function toggleArchiveChat(id: string): void {
-  if (cache === null) cache = [];
-  const session = cache.find((s) => s.id === id);
+export async function toggleArchiveChat(id: string): Promise<void> {
+  await ensureCacheForMutation();
+  const session = cache!.find((s) => s.id === id);
   if (session) {
     session.isArchived = !session.isArchived;
     session.updatedAt = new Date().toISOString();

@@ -88,7 +88,7 @@ export function isEncrypted(value: unknown): value is EncryptedPayload {
 
 export async function encryptString(plaintext: string): Promise<string | null> {
   const key = await getOrCreateKey();
-  if (!key) return JSON.stringify(plaintext);
+  if (!key) return null;
   try {
     const iv = crypto.getRandomValues(new Uint8Array(12));
     const ciphertext = await crypto.subtle.encrypt(
@@ -104,7 +104,7 @@ export async function encryptString(plaintext: string): Promise<string | null> {
     return JSON.stringify(payload);
   } catch (error) {
     console.error("❌ chatCrypto: encrypt failed", error);
-    return JSON.stringify(plaintext);
+    return null;
   }
 }
 

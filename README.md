@@ -26,7 +26,7 @@ Built with **Next.js 16**, **React 19**, and **TypeScript**. Chat history and mo
   - Google Gemini
   - Custom base URLs and models with server-side key verification against the real provider.
   - The provider is auto-detected from your API key prefix, base URL, or model name (OpenRouter, Anthropic, Gemini, Mistral, Hugging Face, DeepSeek, X.AI, Groq, Together, Fireworks, local Ollama/LM Studio…).
-- **Web search** — optional built-in search with cited sources in answers (Bing RSS + DuckDuckGo).
+- **Web search** — optional real-time web search with cited sources in answers (Brave Search API + Bing Web Search API), plus a keyless Bing RSS fallback so search works with no keys at all. Sources are deduplicated (one result per website), Wikipedia is pinned last, and every source carries a snippet so you can judge quality before clicking. Current-year results get a freshness boost for time-sensitive questions.
 - **File & image understanding**
   - PDF parsing, Word (.docx) via Mammoth, Excel (.xlsx) via SheetJS
   - Client-side OCR of images (Tesseract.js, loaded lazily) — image text works with any model, vision-capable or not.
@@ -60,7 +60,7 @@ flowchart TD
 
     subgraph external["🌐 External Services"]
         PROVIDERS["OpenRouter • Anthropic • Gemini<br/>OpenAI-compatible • Ollama"]
-        SEARCH["Bing RSS + DuckDuckGo<br/>web search"]
+        SEARCH["Brave Search API +<br/>Bing Web Search API"]
         CDN["Pinned CDN<br/>Tesseract workers"]
     end
 
@@ -205,12 +205,23 @@ Copy `.env.example` to `.env.local` and fill in the values:
 | `REDIS_URL` | No | Redis connection string for cache & rate limiting (in-memory fallback otherwise). |
 | `RATE_LIMIT_MAX_REQUESTS` | No | Per-user request cap for the rate limiter window. |
 | `RATE_LIMIT_WINDOW` | No | Sliding-window length in milliseconds. |
-| `ENABLE_WEB_SEARCH` | No | Toggle the built-in web search feature. |
+| `ENABLE_WEB_SEARCH` | No | Toggle the web search feature. |
+| `BRAVE_API_KEY` | No | Brave Search API key (2,000 free queries/mo) for real-time web search. |
+| `BING_SEARCH_API_KEY` | No | Bing Web Search API key (Azure F0: 1,000/mo). |
 | `ENABLE_FILE_UPLOAD` | No | Toggle file upload (PDF/DOCX/XLSX/images). |
 | `AUDIT_LOG_KEY` | No | Encrypts the optional audit log (AES-256-GCM, metadata only). Unset = logging disabled. |
 | `AUDIT_LOG_DIR` | No | Directory for the audit log. |
 
 > All key variables carried by the user in the browser are **never** sent to or stored on the server — custom model keys are verified server-side via the provider and kept in the browser only.
+
+### Web search behavior
+
+- Search combines keyed engines (Brave JSON, Bing Web API) with a fast keyless Bing RSS fallback; the fallback auto-detects the market/language so accented queries (Vietnamese, Spanish, French…) aren't degraded to en-US.
+- Sources are deduplicated (max one per website, Wikipedia capped), Wikipedia is always listed last, and each source shows a snippet in the UI.
+- When you press **Continue** to extend an answer, no new web search is triggered — the model just keeps writing.
+- Long generations stream reliably: instead of a fixed time cutoff, the server aborts only when a stream goes **inactive** (no bytes arrive), so slow-but-active replies finish naturally.
+
+> Repeated non-search questions may be answered from cache. The cache key includes the current date and the requester's timezone so answers never go stale for day- or time-sensitive queries.
 
 ### Scripts
 

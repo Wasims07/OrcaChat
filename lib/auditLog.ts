@@ -16,7 +16,7 @@ import * as path from "node:path";
 
 export type AuditRecord = {
   ts: string;
-  status: "success" | "error" | "rate_limited";
+  status: "success" | "error" | "rate_limited" | "interrupted";
   model: string;
   latencyMs: number;
   msgCount: number;

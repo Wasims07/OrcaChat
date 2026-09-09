@@ -70,7 +70,7 @@ describe("chatStorage CRUD", () => {
     const now = new Date().toISOString();
     mod.saveChatSession({ id: "crud_del_a", title: "A", messages: [], createdAt: now, updatedAt: now });
     mod.saveChatSession({ id: "crud_del_b", title: "B", messages: [], createdAt: now, updatedAt: now });
-    mod.deleteChatSession("crud_del_a");
+    await mod.deleteChatSession("crud_del_a");
     expect(mod.getChatSession("crud_del_a")).toBeNull();
     expect(mod.getChatSession("crud_del_b")).not.toBeNull();
   });
@@ -79,9 +79,9 @@ describe("chatStorage CRUD", () => {
     const mod = await import("@/lib/chatStorage");
     const now = new Date().toISOString();
     mod.saveChatSession({ id: "crud_pin_1", title: "P", messages: [], createdAt: now, updatedAt: now, isPinned: false });
-    mod.togglePinChat("crud_pin_1");
+    await mod.togglePinChat("crud_pin_1");
     expect(mod.getChatSession("crud_pin_1")!.isPinned).toBe(true);
-    mod.togglePinChat("crud_pin_1");
+    await mod.togglePinChat("crud_pin_1");
     expect(mod.getChatSession("crud_pin_1")!.isPinned).toBe(false);
   });
 });

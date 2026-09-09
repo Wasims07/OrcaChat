@@ -106,6 +106,10 @@ export function sanitizeErrorMessage(text: string, maxLen = 300): string {
   for (const [pattern, replacement] of KEY_PATTERNS) {
     out = out.replace(pattern, replacement);
   }
+  // Strip HTML tag-like sequences so a hostile/snarky provider error message
+  // can never carry markup into a DOM or log-forgery context. "a < b" (with
+  // whitespace after <) is preserved.
+  out = out.replace(/<[^>\s][^>]*>/g, " ").replace(/\s+/g, " ").trim();
   out = out.replace(/[\u0000-\u001F\u007F]/g, " ").replace(/\s+/g, " ").trim();
   return out.length > maxLen ? out.slice(0, maxLen) + "…" : out;
 }
@@ -125,20 +129,41 @@ export function sanitizeErrorMessage(text: string, maxLen = 300): string {
 // HTML at all, but while previews exist this is the layer that makes the
 // dangerouslySetInnerHTML sink safe for documents.
 // ---------------------------------------------------------------
+// Decode HTML entities (numeric + a few common named ones) so that
+// scheme-checks see the REAL value, not an encoded disguise (e.g.
+// `jav&#x61;script:`).
+function decodeEntities(text: string): string {
+  return text
+    .replace(/&#x([0-9a-f]{1,6});/gi, (_m, hex) => String.fromCharCode(parseInt(hex, 16)))
+    .replace(/&#(\d{1,7});/g, (_m, dec) => String.fromCharCode(parseInt(dec, 10)))
+    .replace(/&colon;/gi, ":")
+    .replace(/&sol;/gi, "/")
+    .replace(/&tab;/gi, "\t")
+    .replace(/&colon/g, ":")
+    .replace(/&amp;/gi, "&");
+}
+
 export function sanitizeUploadedHtml(html: string): string {
   if (!html) return "";
   let out = html;
 
   // Remove complete element blocks for the dangerous tags (with content).
-  out = out.replace(
-    /<(script|iframe|object|embed|form|input|button|select|option|textarea|link|meta|style|svg|math|noscript|template|base)\b[^>]*>[\s\S]*?<\/\1\s*>/gi,
-    ""
+  // Loop until stable so nested/malformed variants (<script><script>…)
+  // cannot survive the innermost pair and leave a live outer one.
+  const DANGEROUS_TAGS =
+    "script|iframe|object|embed|form|input|button|select|option|textarea|link|meta|style|svg|math|noscript|template|base";
+  const blockRe = new RegExp(
+    `<(${DANGEROUS_TAGS})\\b[^>]*>[\\s\\S]*?<\\/\\1\\s*>`,
+    "gi"
   );
-  // Remove lone opening tags that were left behind (malformed HTML).
-  out = out.replace(
-    /<(script|iframe|object|embed|form|input|button|select|option|textarea|link|meta|style|svg|math|noscript|template|base)\b[^>]*\/?>/gi,
-    ""
-  );
+  let prev = "";
+  while (prev !== out) {
+    prev = out;
+    out = out.replace(blockRe, "");
+  }
+  // Remove lone opening/closing tags that were left behind (malformed HTML).
+  out = out.replace(new RegExp(`<(?:${DANGEROUS_TAGS})\\b[^>]*\\/?>`, "gi"), "");
+  out = out.replace(new RegExp(`<\\/(?:${DANGEROUS_TAGS})\\s*>`, "gi"), "");
 
   // Strip event-handler attributes on any element.
   out = out.replace(
@@ -146,13 +171,22 @@ export function sanitizeUploadedHtml(html: string): string {
     ""
   );
 
+  // Strip style attributes entirely — CSS can smuggle url(javascript:…),
+  // behavior:url(…), -moz-binding, and other executable payloads.
+  out = out.replace(/\s+style\s*=\s*(?:"[^"]*"|'[^']*'|[^\s>"']+)/gi, "");
+
   // Strip srcdoc / formtarget + any explicit "formaction".
   out = out.replace(/\s+(?:srcdoc|formtarget|formaction|data-html)\s*=\s*(?:"[^"]*"|'[^']*'|[^\s>"']+)/gi, "");
 
-  // Remove an href/src/action attribute whose value is a script/data URI.
+  // Remove an href/src/action attribute whose (entity-decoded) value is a
+  // script/data URI. Checking the decoded value defeats encoded schemes.
   out = out.replace(
-    /\s+(?:href|src|action|xlink:href)\s*=\s*(?:"|')\s*(?:javascript|vbscript|data:text\/html|data:text\/javascript)[^"']*(?:"|')/gi,
-    ""
+    /\s+(?:href|src|action|xlink:href)\s*=\s*("[^"]*"|'[^']*'|[^\s>"']+)/gi,
+    (_match, rawVal) => {
+      const val = decodeEntities(String(rawVal).replace(/^["']|["']$/g, "")).trim().toLowerCase();
+      if (/^(?:javascript|vbscript|data|file|blob)\s*:/.test(val)) return "";
+      return _match;
+    }
   );
 
   // Belt-and-braces: neutralize the raw scheme token anywhere it appears.

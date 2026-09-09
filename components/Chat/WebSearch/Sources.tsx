@@ -12,6 +12,7 @@ export type Source = {
   url: string;
   domain?: string;
   favicon?: string;
+  snippet?: string;
 };
 
 type SourcesProps = {

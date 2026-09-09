@@ -45,23 +45,26 @@ export default function ChatMenu({
 
   const handleRename = () => {
     if (newTitle.trim()) {
-      updateChatTitle(chatId, newTitle.trim());
-      onChatUpdate();
-      setIsRenaming(false);
-      onMenuClose();
+      void updateChatTitle(chatId, newTitle.trim()).then(() => {
+        onChatUpdate();
+        setIsRenaming(false);
+        onMenuClose();
+      });
     }
   };
 
   const handlePin = () => {
-    togglePinChat(chatId);
-    onChatUpdate();
-    onMenuClose();
+    void togglePinChat(chatId).then(() => {
+      onChatUpdate();
+      onMenuClose();
+    });
   };
 
   const handleArchive = () => {
-    toggleArchiveChat(chatId);
-    onChatUpdate();
-    onMenuClose();
+    void toggleArchiveChat(chatId).then(() => {
+      onChatUpdate();
+      onMenuClose();
+    });
   };
 
   const handleDelete = () => {
@@ -69,9 +72,8 @@ export default function ChatMenu({
       // Let the parent clear the main view + remove from storage in one step.
       onDeleteChat(chatId);
     } else {
-      deleteChatSession(chatId);
+      void deleteChatSession(chatId).then(onChatUpdate);
     }
-    onChatUpdate();
     onMenuClose();
     setShowDeleteConfirm(false);
   };

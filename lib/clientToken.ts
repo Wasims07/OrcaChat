@@ -14,9 +14,7 @@ export function getAnonClientToken(): string {
   try {
     let token = localStorage.getItem(TOKEN_KEY);
     if (!token) {
-      token = `tok_${Date.now().toString(36)}_${Math.random()
-        .toString(36)
-        .slice(2, 12)}`;
+      token = `tok_${crypto.randomUUID().replace(/-/g, "")}`;
       localStorage.setItem(TOKEN_KEY, token);
     }
     cachedToken = token;
