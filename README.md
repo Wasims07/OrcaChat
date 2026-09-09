@@ -158,10 +158,11 @@ Or deploy the standalone build to any Node.js 20+ host by copying the `.next/sta
 
 ```bash
 npm i -g vercel
+vercel login
 vercel --prod
 ```
 
-Set your [environment variables](#configuration) in the Vercel dashboard — never commit real keys.
+Alternative: connect the GitHub repository in the Vercel dashboard (**Settings → Git**), then every push to `main` builds and deploys automatically. Set your [environment variables](#configuration) in the Vercel dashboard — never commit real keys.
 
 ## 🧱 Tech Stack
 
